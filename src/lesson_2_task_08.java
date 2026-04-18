@@ -1,4 +1,4 @@
-public class lesson_2_task_8 {
+public class lesson_2_task_08 {
     public static void main(String[] args) {
         printLineMultipleTimes("Aston AQA", 3);
     }

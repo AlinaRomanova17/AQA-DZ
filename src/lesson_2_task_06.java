@@ -1,4 +1,4 @@
-public class lesson_2_task_6 {
+public class lesson_2_task_06 {
     public static void main(String[] args) {
         printNumberSign(10);
         printNumberSign(-3);

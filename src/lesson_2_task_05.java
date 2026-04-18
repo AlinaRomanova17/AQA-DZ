@@ -1,4 +1,4 @@
-public class lesson_2_task_5 {
+public class lesson_2_task_05 {
     public static void main(String[] args) {
         System.out.println(checkSumInRange(8, 7));
         System.out.println(checkSumInRange(1, 3));

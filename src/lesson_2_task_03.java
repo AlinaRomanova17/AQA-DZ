@@ -1,4 +1,4 @@
-public class lesson_2_task_3 {
+public class lesson_2_task_03 {
     public static void main(String[] args) {
         printColor();
     }
