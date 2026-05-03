@@ -1,7 +1,5 @@
-/** Лекция 2.7: сравнение двух целых чисел (как Integer.compare). */
 public class lesson_7_task_4 {
 
-    /** Если a меньше b — результат отрицательный; равны — ноль; a больше b — положительный */
     public static int compareInts(int a, int b) {
         return Integer.compare(a, b);
     }
