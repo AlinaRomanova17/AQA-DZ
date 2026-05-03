@@ -1,4 +1,3 @@
-/** Лекция 2.7: факториал неотрицательного целого числа. */
 public class lesson_7_task_1 {
 
     public static long factorial(int n) {

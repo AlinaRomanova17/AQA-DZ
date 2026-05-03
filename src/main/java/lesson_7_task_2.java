@@ -1,9 +1,5 @@
-/** Лекция 2.7: площадь треугольника по трём сторонам (формула Герона). */
 public class lesson_7_task_2 {
 
-    /**
-     * Все три стороны должны быть положительными и удовлетворять неравенству треугольника.
-     */
     public static double triangleArea(double a, double b, double c) {
         if (!isPositive(a) || !isPositive(b) || !isPositive(c)) {
             throw new IllegalArgumentException("Стороны должны быть положительными");

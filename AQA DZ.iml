@@ -10,7 +10,6 @@
       <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
     <orderEntry type="inheritedJdk" />
-    <!-- Явное подключение JUnit, если Maven в IDEA не подгрузился -->
     <orderEntry type="library" scope="TEST" name="JUnit Jupiter (Maven local)" level="project" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>

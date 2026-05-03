@@ -1,4 +1,3 @@
-/** Лекция 2.7: арифметика для двух целых чисел. */
 public class lesson_7_task_3 {
 
     public static int add(int a, int b) {
