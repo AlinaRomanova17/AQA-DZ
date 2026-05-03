@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="libraryTable">
+  <library name="TestNG (Maven local)">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.m2/repository/org/testng/testng/7.11.0/testng-7.11.0.jar!/" />
+      <root url="jar://$USER_HOME$/.m2/repository/org/slf4j/slf4j-api/2.0.16/slf4j-api-2.0.16.jar!/" />
+      <root url="jar://$USER_HOME$/.m2/repository/org/jcommander/jcommander/1.83/jcommander-1.83.jar!/" />
+      <root url="jar://$USER_HOME$/.m2/repository/org/webjars/jquery/3.7.1/jquery-3.7.1.jar!/" />
+    </CLASSES>
+    <SOURCES />
+    <JAVADOC />
+  </library>
+</component>
