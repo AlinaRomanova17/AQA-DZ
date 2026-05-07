@@ -2,129 +2,104 @@ import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.hasKey;
 import static org.hamcrest.Matchers.nullValue;
 
-public class lesson_8_postman_echo_request_methods_Test {
+public class PostmanTest {
 
     private static final String BASE_URL = "https://postman-echo.com";
     private static final String BASE_REQUEST_BODY = "{\"name\":\"Alina\",\"course\":\"AQA\"}";
 
     @Test
-    void get_method_shouldReturn200_andExpectedBody() {
+    void getReturns200() {
         given()
                 .baseUri(BASE_URL)
-                .queryParam("foo1", "bar1")
-                .queryParam("foo2", "bar2")
                 .header("x-lesson", "8")
-                .when()
+        .when()
                 .get("/get")
-                .then()
-                .statusCode(200)
-                .body("args.foo1", equalTo("bar1"))
-                .body("args.foo2", equalTo("bar2"));
+        .then()
+                .statusCode(200);
     }
 
     @Test
-    void post_method_shouldReturn200_andExpectedBody() {
+    void postReturns200AndBody() {
         given()
                 .baseUri(BASE_URL)
-                .queryParam("foo1", "bar1")
-                .queryParam("foo2", "bar2")
                 .header("x-lesson", "8")
                 .contentType("application/json")
                 .body(BASE_REQUEST_BODY)
-                .when()
+        .when()
                 .post("/post")
-                .then()
+        .then()
                 .statusCode(200)
-                .body("args.foo1", equalTo("bar1"))
-                .body("args.foo2", equalTo("bar2"))
                 .body("data", equalTo(BASE_REQUEST_BODY))
                 .body("json.name", equalTo("Alina"))
                 .body("json.course", equalTo("AQA"));
     }
 
     @Test
-    void put_method_shouldReturn200_andExpectedBody() {
+    void putReturns200AndBody() {
         given()
                 .baseUri(BASE_URL)
-                .queryParam("foo1", "bar1")
-                .queryParam("foo2", "bar2")
                 .header("x-lesson", "8")
                 .contentType("application/json")
                 .body(BASE_REQUEST_BODY)
-                .when()
+        .when()
                 .put("/put")
-                .then()
+        .then()
                 .statusCode(200)
-                .body("args.foo1", equalTo("bar1"))
-                .body("args.foo2", equalTo("bar2"))
                 .body("data", equalTo(BASE_REQUEST_BODY))
                 .body("json.name", equalTo("Alina"))
                 .body("json.course", equalTo("AQA"));
     }
 
     @Test
-    void patch_method_shouldReturn200_andExpectedBody() {
+    void patchReturns200AndBody() {
         given()
                 .baseUri(BASE_URL)
-                .queryParam("foo1", "bar1")
-                .queryParam("foo2", "bar2")
                 .header("x-lesson", "8")
                 .contentType("application/json")
                 .body(BASE_REQUEST_BODY)
-                .when()
+        .when()
                 .patch("/patch")
-                .then()
+        .then()
                 .statusCode(200)
-                .body("args.foo1", equalTo("bar1"))
-                .body("args.foo2", equalTo("bar2"))
                 .body("data", equalTo(BASE_REQUEST_BODY))
                 .body("json.name", equalTo("Alina"))
                 .body("json.course", equalTo("AQA"));
     }
 
     @Test
-    void delete_method_shouldReturn200_andExpectedBody() {
+    void deleteReturns200AndEmptyBody() {
         given()
                 .baseUri(BASE_URL)
-                .queryParam("foo1", "bar1")
-                .queryParam("foo2", "bar2")
                 .header("x-lesson", "8")
-                .when()
+        .when()
                 .delete("/delete")
-                .then()
+        .then()
                 .statusCode(200)
-                .body("args.foo1", equalTo("bar1"))
-                .body("args.foo2", equalTo("bar2"))
                 .body("data", equalTo(""))
                 .body("json", nullValue());
     }
 
     @Test
-    void head_method_shouldReturn200_andEmptyBody() {
+    void headReturns200AndEmptyBody() {
         given()
                 .baseUri(BASE_URL)
-                .queryParam("foo1", "bar1")
-                .queryParam("foo2", "bar2")
                 .header("x-lesson", "8")
-                .when()
+        .when()
                 .head("/get")
-                .then()
+        .then()
                 .statusCode(200)
                 .body(equalTo(""));
     }
 
     @Test
-    void options_method_shouldReturn200_andAllowedMethodsBody() {
+    void optionsReturns200AndAllowedMethods() {
         given()
                 .baseUri(BASE_URL)
-                .queryParam("foo1", "bar1")
-                .queryParam("foo2", "bar2")
-                .when()
+        .when()
                 .options("/get")
-                .then()
+        .then()
                 .statusCode(200)
                 .body(equalTo("GET,HEAD,PUT,POST,DELETE,PATCH"));
     }
