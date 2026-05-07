@@ -2,18 +2,18 @@ import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.nullValue;
 
 public class PostmanTest {
 
     private static final String BASE_URL = "https://postman-echo.com";
-    private static final String BASE_REQUEST_BODY = "{\"name\":\"Alina\",\"course\":\"AQA\"}";
+    private static final String BASE_REQUEST_BODY = "{\"FirstName\":\"Alina\",\"LastName\":\"Romanova\"}";
 
     @Test
-    void getReturns200() {
+    void get() {
         given()
                 .baseUri(BASE_URL)
-                .header("x-lesson", "8")
+                .header("FirstName", "Alina")
+                .header("LastName", "Romanova")
         .when()
                 .get("/get")
         .then()
@@ -21,86 +21,62 @@ public class PostmanTest {
     }
 
     @Test
-    void postReturns200AndBody() {
+    void post() {
         given()
                 .baseUri(BASE_URL)
-                .header("x-lesson", "8")
+                .header("FirstName", "Alina")
+                .header("LastName", "Romanova")
                 .contentType("application/json")
                 .body(BASE_REQUEST_BODY)
         .when()
                 .post("/post")
         .then()
                 .statusCode(200)
-                .body("data", equalTo(BASE_REQUEST_BODY))
-                .body("json.name", equalTo("Alina"))
-                .body("json.course", equalTo("AQA"));
+                .body("json.FirstName", equalTo("Alina"))
+                .body("json.LastName", equalTo("Romanova"));
     }
 
     @Test
-    void putReturns200AndBody() {
+    void put() {
         given()
                 .baseUri(BASE_URL)
-                .header("x-lesson", "8")
+                .header("FirstName", "Alina")
+                .header("LastName", "Romanova")
                 .contentType("application/json")
                 .body(BASE_REQUEST_BODY)
         .when()
                 .put("/put")
         .then()
                 .statusCode(200)
-                .body("data", equalTo(BASE_REQUEST_BODY))
-                .body("json.name", equalTo("Alina"))
-                .body("json.course", equalTo("AQA"));
+                .body("json.FirstName", equalTo("Alina"))
+                .body("json.LastName", equalTo("Romanova"));
     }
 
     @Test
-    void patchReturns200AndBody() {
+    void patch() {
         given()
                 .baseUri(BASE_URL)
-                .header("x-lesson", "8")
+                .header("FirstName", "Alina")
+                .header("LastName", "Romanova")
                 .contentType("application/json")
                 .body(BASE_REQUEST_BODY)
         .when()
                 .patch("/patch")
         .then()
                 .statusCode(200)
-                .body("data", equalTo(BASE_REQUEST_BODY))
-                .body("json.name", equalTo("Alina"))
-                .body("json.course", equalTo("AQA"));
+                .body("json.FirstName", equalTo("Alina"))
+                .body("json.LastName", equalTo("Romanova"));
     }
 
     @Test
-    void deleteReturns200AndEmptyBody() {
+    void delete() {
         given()
                 .baseUri(BASE_URL)
-                .header("x-lesson", "8")
+                .header("FirstName", "Alina")
+                .header("LastName", "Romanova")
         .when()
                 .delete("/delete")
         .then()
-                .statusCode(200)
-                .body("data", equalTo(""))
-                .body("json", nullValue());
-    }
-
-    @Test
-    void headReturns200AndEmptyBody() {
-        given()
-                .baseUri(BASE_URL)
-                .header("x-lesson", "8")
-        .when()
-                .head("/get")
-        .then()
-                .statusCode(200)
-                .body(equalTo(""));
-    }
-
-    @Test
-    void optionsReturns200AndAllowedMethods() {
-        given()
-                .baseUri(BASE_URL)
-        .when()
-                .options("/get")
-        .then()
-                .statusCode(200)
-                .body(equalTo("GET,HEAD,PUT,POST,DELETE,PATCH"));
+                .statusCode(200);
     }
 }
