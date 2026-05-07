@@ -1,6 +1,8 @@
+import io.restassured.RestAssured;
 import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.given;
+import static io.restassured.RestAssured.request;
 import static org.hamcrest.Matchers.equalTo;
 
 public class PostmanTest {
@@ -10,14 +12,16 @@ public class PostmanTest {
 
     @Test
     void get() {
+        RestAssured.baseURI = BASE_URL;
         given()
-                .baseUri(BASE_URL)
-                .header("FirstName", "Alina")
-                .header("LastName", "Romanova")
+                .queryParam("FirstName", "Alina")
+                .queryParam("LastName", "Romanova")
         .when()
                 .get("/get")
         .then()
-                .statusCode(200);
+                .statusCode(200)
+                .body("args.FirstName", equalTo("Alina"))
+                .body("args.LastName", equalTo("Romanova"));
     }
 
     @Test
@@ -70,13 +74,15 @@ public class PostmanTest {
 
     @Test
     void delete() {
+        RestAssured.baseURI = BASE_URL;
         given()
-                .baseUri(BASE_URL)
-                .header("FirstName", "Alina")
-                .header("LastName", "Romanova")
+                .queryParam("FirstName", "Alina")
+                .queryParam("LastName", "Romanova")
         .when()
                 .delete("/delete")
         .then()
-                .statusCode(200);
+                .statusCode(200)
+                .body("args.FirstName", equalTo("Alina"))
+                .body("args.LastName", equalTo("Romanova"));
     }
 }
