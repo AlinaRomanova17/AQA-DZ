@@ -7,12 +7,15 @@ import java.time.Duration;
 public class DriverManager {
 
     private static WebDriver driver;
+    private static boolean shutdownHookRegistered;
 
     public static WebDriver getDriver() {
         if (driver == null) {
+            registerShutdownHook();
             ChromeOptions options = new ChromeOptions();
             options.addArguments("--start-maximized");
             options.addArguments("--disable-notifications");
+            options.setExperimentalOption("detach", false);
             driver = new ChromeDriver(options);
             driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         }
@@ -20,9 +23,25 @@ public class DriverManager {
     }
 
     public static void quitDriver() {
-        if (driver != null) {
+        if (driver == null) {
+            return;
+        }
+        try {
             driver.quit();
+        } catch (Exception ignored) {
+            try {
+                driver.close();
+            } catch (Exception ignoredClose) {
+            }
+        } finally {
             driver = null;
+        }
+    }
+
+    private static void registerShutdownHook() {
+        if (!shutdownHookRegistered) {
+            Runtime.getRuntime().addShutdownHook(new Thread(DriverManager::quitDriver));
+            shutdownHookRegistered = true;
         }
     }
 }
