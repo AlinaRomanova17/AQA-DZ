@@ -7,8 +7,9 @@ import lesson10.utils.DriverManager;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.time.Duration;
 import java.util.List;
+
+import java.time.Duration;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -54,11 +55,29 @@ public class OnlineRefillService {
     }
 
     public OnlineRefillService checkPlaceholdersForVariant(String variantName) {
-        homePage.selectPaymentVariant(variantName);
+        homePage.selectPaymentVariant(variantName)
+                .clearFieldsForVariant(variantName);
+
+        assertTrue(homePage.areAllFieldsEmpty(variantName),
+                "Поля должны быть пустыми перед проверкой: " + variantName);
+
         List<String> actualPlaceholders = homePage.getPlaceholdersForVariant(variantName);
         List<String> expectedPlaceholders = Constants.EXPECTED_PLACEHOLDERS_BY_VARIANT.get(variantName);
         assertEquals(expectedPlaceholders, actualPlaceholders,
-                "Неверные placeholder для варианта: " + variantName);
+                "Неверные надписи в пустых полях для варианта: " + variantName);
+
+        for (WebElement input : homePage.getEmptyFieldInputsForVariant(variantName)) {
+            String placeholder = input.getAttribute("placeholder");
+            assertTrue(homePage.isPlaceholderLabelVisible(input),
+                    "Надпись должна быть видна в пустом поле: " + placeholder);
+
+            homePage.typeIntoField(input, "1");
+            assertFalse(homePage.isPlaceholderLabelVisible(input),
+                    "Надпись должна исчезнуть после ввода в поле: " + placeholder);
+
+            input.clear();
+        }
+
         return this;
     }
 

@@ -121,17 +121,53 @@ public class MtsHomePage extends BasePage {
         return this;
     }
 
+    public List<WebElement> getEmptyFieldInputsForVariant(String variantName) {
+        return getFormInputsForVariant(variantName);
+    }
+
     public List<String> getPlaceholdersForVariant(String variantName) {
-        String formId = Constants.FORM_ID_BY_VARIANT.get(variantName);
-        WebElement form = driver.findElement(By.id(formId));
         List<String> placeholders = new ArrayList<>();
-        for (WebElement input : form.findElements(By.cssSelector("input[placeholder]"))) {
-            String placeholder = input.getAttribute("placeholder");
-            if (placeholder != null && !placeholder.isBlank()) {
-                placeholders.add(placeholder);
-            }
+        for (WebElement input : getFormInputsForVariant(variantName)) {
+            placeholders.add(input.getAttribute("placeholder"));
         }
         return placeholders;
+    }
+
+    public boolean areAllFieldsEmpty(String variantName) {
+        for (WebElement input : getFormInputsForVariant(variantName)) {
+            if (!isFieldEmpty(input)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean isPlaceholderLabelVisible(WebElement input) {
+        return isFieldEmpty(input);
+    }
+
+    public MtsHomePage clearFieldsForVariant(String variantName) {
+        for (WebElement input : getFormInputsForVariant(variantName)) {
+            input.clear();
+        }
+        return this;
+    }
+
+    public MtsHomePage typeIntoField(WebElement input, String value) {
+        input.clear();
+        input.sendKeys(value);
+        return this;
+    }
+
+    private List<WebElement> getFormInputsForVariant(String variantName) {
+        String formId = Constants.FORM_ID_BY_VARIANT.get(variantName);
+        WebElement form = driver.findElement(By.id(formId));
+        return form.findElements(By.cssSelector("input[placeholder]"));
+    }
+
+    private boolean isFieldEmpty(WebElement input) {
+        String value = input.getAttribute("value");
+        return value == null || value.isBlank();
     }
 
     public MtsHomePage fillConnectionServiceForm(String phone, String sum, String email) {
