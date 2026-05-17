@@ -2,18 +2,14 @@ package lesson10.service;
 
 import lesson10.page.BepaidWidgetPage;
 import lesson10.page.MtsHomePage;
+import lesson10.utils.Asserts;
 import lesson10.utils.Constants;
 import lesson10.utils.DriverManager;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.util.List;
-
 import java.time.Duration;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import java.util.List;
 
 public class OnlineRefillService {
 
@@ -29,16 +25,17 @@ public class OnlineRefillService {
     }
 
     public OnlineRefillService checkLesson9PayBlock() {
-        assertEquals(Constants.PAY_BLOCK_TITLE, homePage.getPayBlockTitleText());
+        Asserts.assertEquals(Constants.PAY_BLOCK_TITLE, homePage.getPayBlockTitleText());
 
         List<WebElement> logos = homePage.getPartnerLogos();
-        assertEquals(5, logos.size());
+        Asserts.assertEquals(5, logos.size());
         for (String alt : Constants.EXPECTED_PARTNER_LOGO_ALTS) {
-            assertTrue(hasLogoWithAlt(logos, alt), "Логотип не найден: " + alt);
+            Asserts.assertTrue(hasLogoWithAlt(logos, alt), "Логотип не найден: " + alt);
         }
 
-        assertEquals(Constants.DETAILS_LINK_TEXT, homePage.getDetailsLinkText());
-        assertTrue(homePage.getDetailsLinkHref().contains(Constants.DETAILS_LINK_URL_PART));
+        Asserts.assertEquals(Constants.DETAILS_LINK_TEXT, homePage.getDetailsLinkText());
+        Asserts.assertTrue(homePage.getDetailsLinkHref().contains(Constants.DETAILS_LINK_URL_PART),
+                "Ссылка «Подробнее» ведёт не на страницу помощи");
 
         homePage.clickDetailsLink()
                 .waitHelpPageOpened(Constants.DETAILS_LINK_URL_PART);
@@ -58,21 +55,21 @@ public class OnlineRefillService {
         homePage.selectPaymentVariant(variantName)
                 .clearFieldsForVariant(variantName);
 
-        assertTrue(homePage.areAllFieldsEmpty(variantName),
+        Asserts.assertTrue(homePage.areAllFieldsEmpty(variantName),
                 "Поля должны быть пустыми перед проверкой: " + variantName);
 
         List<String> actualPlaceholders = homePage.getPlaceholdersForVariant(variantName);
         List<String> expectedPlaceholders = Constants.EXPECTED_PLACEHOLDERS_BY_VARIANT.get(variantName);
-        assertEquals(expectedPlaceholders, actualPlaceholders,
+        Asserts.assertEquals(expectedPlaceholders, actualPlaceholders,
                 "Неверные надписи в пустых полях для варианта: " + variantName);
 
         for (WebElement input : homePage.getEmptyFieldInputsForVariant(variantName)) {
             String placeholder = input.getAttribute("placeholder");
-            assertTrue(homePage.isPlaceholderLabelVisible(input),
+            Asserts.assertTrue(homePage.isPlaceholderLabelVisible(input),
                     "Надпись должна быть видна в пустом поле: " + placeholder);
 
             homePage.typeIntoField(input, "1");
-            assertFalse(homePage.isPlaceholderLabelVisible(input),
+            Asserts.assertFalse(homePage.isPlaceholderLabelVisible(input),
                     "Надпись должна исчезнуть после ввода в поле: " + placeholder);
 
             input.clear();
@@ -99,19 +96,19 @@ public class OnlineRefillService {
 
             wait.until(driver -> bepaidPage.isPhoneShown(Constants.CONNECTION_PHONE));
 
-            assertTrue(bepaidPage.isPhoneShown(Constants.CONNECTION_PHONE),
+            Asserts.assertTrue(bepaidPage.isPhoneShown(Constants.CONNECTION_PHONE),
                     "Телефон не отображается в окне оплаты");
-            assertTrue(bepaidPage.isAmountShown(Constants.CONNECTION_SUM),
+            Asserts.assertTrue(bepaidPage.isAmountShown(Constants.CONNECTION_SUM),
                     "Сумма не отображается в окне оплаты");
-            assertTrue(bepaidPage.isAmountOnPayButton(Constants.CONNECTION_SUM),
+            Asserts.assertTrue(bepaidPage.isAmountOnPayButton(Constants.CONNECTION_SUM),
                     "Сумма не отображается на кнопке оплаты");
-            assertTrue(bepaidPage.hasCardFieldHints(Constants.EXPECTED_CARD_FIELD_HINTS),
+            Asserts.assertTrue(bepaidPage.hasCardFieldHints(Constants.EXPECTED_CARD_FIELD_HINTS),
                     "Нет подсказок в полях карты");
-            assertFalse(bepaidPage.getCardFieldPlaceholders().isEmpty(),
+            Asserts.assertFalse(bepaidPage.getCardFieldPlaceholders().isEmpty(),
                     "Нет placeholder в незаполненных полях карты");
-            assertTrue(bepaidPage.getPaymentImagesCount() > 0,
+            Asserts.assertTrue(bepaidPage.getPaymentImagesCount() > 0,
                     "Нет иконок платёжных систем");
-            assertFalse(bepaidPage.getCardInputs().isEmpty(),
+            Asserts.assertFalse(bepaidPage.getCardInputs().isEmpty(),
                     "Нет полей ввода реквизитов карты");
         } finally {
             bepaidPage.switchToMainPage();
